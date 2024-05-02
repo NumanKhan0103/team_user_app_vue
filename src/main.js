@@ -6,6 +6,7 @@ import App from './App.vue';
 import TeamList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 import TeamMember from './components/teams/TeamMembers.vue';
+import NotFound  from './components/nav/NotFound.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,17 +18,20 @@ const router = createRouter({
         {
             path: '/teams',
             component: TeamList,
+            children: [
+                {
+                    path: '/teams/:teamId',
+                    component: TeamMember,
+                    props: true,
+                }
+            ],
         },
         {
             path: '/users',
             component: UsersList,
         },{
-            path: '/teams/:teamId',
-            component: TeamMember,
-            props: true,
-        },{
             path: '/:notFound(.*)',
-            redirect: '/teams',
+            component: NotFound,
         }
     ],
     linkActiveClass: 'active',
