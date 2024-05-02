@@ -9,6 +9,8 @@
         :role="member.role"
       ></user-item>
     </ul>
+    
+    <router-link to="/teams/t2">Go To Team 2</router-link>
   </section>
 </template>
 
@@ -17,6 +19,7 @@ import UserItem from '../users/UserItem.vue';
 
 export default {
   inject: ['users', 'teams'],
+  props:['teamId'],
   components: {
     UserItem
   },
@@ -26,30 +29,40 @@ export default {
       members: [],
     };
   },
-  created(){
-   
+  methods:{
+    loadTeam(teamId){
+      
     // get parameter for url
-    const teamId = this.$route.params.teamId;
+    // const teamId = route.params.teamId;
 
-    // find that id team 
-    const selectedTeam = this.teams.find(team => team.id == teamId);
+      // find that id team 
+      const selectedTeam = this.teams.find(team => team.id == teamId);
 
-    // get team members 
-    const members = selectedTeam.members;
+      // get team members 
+      const members = selectedTeam.members;
 
-    const selectedMembers = [];
+      const selectedMembers = [];
 
-    // find each user in the user 
-    for (const member of members) {
+      // find each user in the user 
+      for (const member of members) {
 
-      const selectedUser = this.users.find(user => user.id == member);
-      this.selectedMembers.push(selectedUser);
+        const selectedUser = this.users.find(user => user.id == member);
+        selectedMembers.push(selectedUser);
+       }
+
+        // assign to current component property 
+      this.teamName = selectedTeam.name;
+      this.members = selectedMembers;
   }
-
-  // assign to current component property 
-  this.teamName = selectedTeam.name;
-  this.members = selectedMembers;
-}
+},
+  created(){
+    this.loadTeam(this.teamId);
+  },
+  watch: {
+    teamId(newId){
+      this.loadTeam(newId);
+    }
+  },
 };
 </script>
 
