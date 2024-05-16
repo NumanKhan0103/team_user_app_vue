@@ -45,10 +45,10 @@ const router = createRouter({
         }
     ],
     linkActiveClass: 'active',
-    scrollBehavior(to, from, savePosition){
+    scrollBehavior(_, _2, savePosition){
 
         if (savePosition) return savePosition;
-        
+
         return {
             left: 0,
             top: 0,
@@ -56,6 +56,20 @@ const router = createRouter({
     },
 });
 
+router.beforeEach(function(to, form, next){
+
+    // if(to.name === "team-members"){
+
+    //     next();
+    // }else{
+    //     next({
+    //         name: 'team-members',
+    //         params: { teamId: 't2'}
+    //     });
+    // }
+    next();
+
+});
 
 const app = createApp(App)
 
